@@ -1,36 +1,51 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
-const App = () => {
-  const [message, setMessage] = useState('');
+function App() {
+    const [message, setMessage] = useState('')
+    const [list, setList] = useState([])
 
-  const handleChange = event => {
-    setMessage(event.target.value);
+    const handleChange = event => {
+      setMessage(event.target.value)
+    }
 
-    console.log('value is:', event.target.value);
+    const handleClick = event =>{
+        event.preventDefault();
+
+        setList([{
+            message: message,
+
+        },
+        ...list,
+      
+      ])
+      setMessage('')
   };
 
-  const handleClick = event => {
-    event.preventDefault();
+  return(
+      <div>
+          <input
+              type="text"
+              id="message"
+              name="message"
+              onChange={handleChange}
+              value={message}
+              autocomplete="off"
+              onKeyDown= {(e) => {
+                if(e.code === 'Enter'){
+                  handleClick(e)
+                }
+              }}
+          />
 
-    console.log('handleClick :', message);
-  };
+          <h4>Messages</h4>
+          {list.map((item,idx) =>(
+              <p key={idx}> {item.message} </p>
+          ))}
+      </div>
+  )
 
-  return (
-    <div>
-      <input
-        type="text"
-        id="message"
-        name="message"
-        onChange={handleChange}
-        value={message}
-        autoComplete="off"
-      />
 
-      <h2>Message: {message}</h2>
 
-      <button onClick={handleClick}>Click</button>
-    </div>
-  );
-};
 
+}
 export default App;
